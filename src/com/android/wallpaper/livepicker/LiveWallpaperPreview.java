@@ -247,7 +247,6 @@ public class LiveWallpaperPreview extends Activity {
         
         public void disconnect() {
             synchronized (this) {
-                mConnected = false;
                 if (mEngine != null) {
                     try {
                         mEngine.destroy();
@@ -256,7 +255,10 @@ public class LiveWallpaperPreview extends Activity {
                     }
                     mEngine = null;
                 }
-                unbindService(this);
+                if (mConnected == true) {
+                    unbindService(this);
+                }
+                mConnected = false;
                 mService = null;
             }
         }
